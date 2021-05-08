@@ -1,0 +1,5 @@
+com\mycompany\fouriertransformations\Display2dFT$Intensity.class
+com\mycompany\fouriertransformations\Display2dFT$Hue.class
+com\mycompany\fouriertransformations\DisplayDensity.class
+com\mycompany\fouriertransformations\Display2dFT.class
+com\mycompany\fouriertransformations\ReadPGM.class
