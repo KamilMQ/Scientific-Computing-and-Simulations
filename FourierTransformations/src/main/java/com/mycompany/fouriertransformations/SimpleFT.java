@@ -18,7 +18,7 @@ public class SimpleFT {
       public static void main(String [] args) throws Exception {
   
           double [] [] X = new double [N] [N] ;
-          ReadPGM.read(X, "wolf.pgm", N) ;
+          ReadPGM.read(X, "C:/Users/kamil/Documents/Scientific-Computing-and-Simulations/FourierTransformations/src/wolf.pgm", N) ;
   
           DisplayDensity display =
                   new DisplayDensity(X, N, "Original Image") ;

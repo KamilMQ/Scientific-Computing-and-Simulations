@@ -16,7 +16,7 @@ public class FFTImageFiltering {
     public static void main(String [] args) throws Exception {
 
         double [] [] X = new double [N] [N] ;
-        ReadPGM.read(X, "lena.pgm", N) ;
+        ReadPGM.read(X, "C:/Users/kamil/Documents/Scientific-Computing-and-Simulations/FourierTransformations/lena.pgm", N) ;
 
         DisplayDensity display =
                 new DisplayDensity(X, N, "Original Image") ;

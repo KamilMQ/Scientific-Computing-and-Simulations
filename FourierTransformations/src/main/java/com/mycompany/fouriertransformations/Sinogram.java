@@ -94,15 +94,42 @@ public class Sinogram {
         for(int iTheta = 0 ; iTheta < N ; iTheta++) {
             for(int iK = 0 ; iK < N ; iK++) {
                 int kSigned = iK <= N/2 ? iK : iK - N ;
+
+                double CUTOFF = N/4;
+
+                //Absolute K
+                double AbsoluteK = Math.abs(kSigned);
+
+                // Ram Lak
+                double ramLak = Math.abs(kSigned) > CUTOFF ? 0 : Math.abs(kSigned);
+
+                // Low Pass Cosine
+                double cosine = Math.abs(kSigned) * Math.cos(Math.PI * kSigned / (2 * CUTOFF));
+                double clippedCosine = Math.abs(kSigned) > CUTOFF ? 0 : cosine;
+
+                //Operation
+                //Choose between AbsoluteK, ramLak, clippedCosine 
+                double filterMethod = Math.abs(kSigned);
+                sinogramFTIm[iTheta][iK] *= filterMethod;
+                sinogramFTRe[iTheta][iK] *= filterMethod;
+
+
             }
         }
+
+        //Inverse 1D FFT
+        for(int iTheta = 0 ; iTheta < N ; iTheta++) {
+            // ... do 1D FFT on a row ...
+            FFT.fft1d(sinogramFTRe[iTheta], sinogramFTIm[iTheta], -1);
+        }
+
 
         DisplaySinogramFT display3 =
                 new DisplaySinogramFT(sinogramFTRe, sinogramFTIm, N,
                                       "Sinogram radial Fourier Transform") ;
 
         double [] [] backProjection = new double [N] [N] ;
-        backProject(backProjection, sinogram) ;
+        backProject(backProjection, sinogramFTRe) ;
 
         // Normalize reconstruction, to have same sum as inferred for
         // original density
@@ -113,10 +140,14 @@ public class Sinogram {
                 backProjection [i] [j] *= factor ;
             }
         }
+        
+        DisplayDensity display4 =
+                new DisplayDensity(sinogramFTRe, N,
+                                   "Filtered sinogram") ;
 
         DisplayDensity display5 =
                 new DisplayDensity(backProjection, N,
-                                   "Back projected sinogram") ;
+                                   "Back projected sinogram", GREY_SCALE_LO, GREY_SCALE_HI) ;
     }
 
     static void backProject(double [] [] projection, double [] [] sinogram) {
