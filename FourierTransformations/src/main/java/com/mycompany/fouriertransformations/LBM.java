@@ -5,7 +5,7 @@ import javax.swing.* ;
 public class LBM {
 
     //final static int NITER = 30000 ;
-    final static int NITER = 50000 ;
+    final static int NITER = 5000 ;
 
     final static int NX = 520, NY = 180 ;  // Lattice dimensions
     final static int Q = 9 ;  // num states
